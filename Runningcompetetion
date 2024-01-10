@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract RunningCompetition {
+   
+    mapping(address => uint256) public runnerSpeeds;
+
+    event Winner(address winner);
+
+    // Function to record a runner's speed
+    function recordRunnerSpeed(uint256 speed) external {
+        
+        assert(speed >= 10 ); // You can't win first place with this speed);
+        runnerSpeeds[msg.sender] = speed;
+    }
+
+    // Function to check participation criteria
+    function checkParticipationCriteria(uint256 weight, uint256 pastRecordSpeed) public pure {
+       require(weight > 60); //
+
+        // Check if past record speed is less than 7 meters per second
+        if (pastRecordSpeed < 7) {
+            revert("You are not allowed to participate with this past record speed");
+        }
+    }
+
+}
